@@ -12,15 +12,15 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import school.faang.user_service.config.context.UserContext;
 import school.faang.user_service.dto.subscription.SubscriptionUserDto;
 import school.faang.user_service.dto.subscription.SubscriptionUserFilterDto;
-import school.faang.user_service.dto.event.SearchAppearanceEvent;
-import school.faang.user_service.dto.event.FollowerEvent;
+import school.faang.user_service.event.SearchAppearanceEvent;
+import school.faang.user_service.event.FollowerEvent;
 import school.faang.user_service.entity.User;
 import school.faang.user_service.exception.DataValidationException;
 import school.faang.user_service.mapper.SubscriptionUserMapper;
-import school.faang.user_service.publisher.SearchAppearanceEventPublisher;
+import school.faang.user_service.publisher.SearchAppearanceEventEventPublisher;
 import school.faang.user_service.repository.SubscriptionRepository;
 import school.faang.user_service.filter.user.*;
-import school.faang.user_service.publisher.FollowerEventPublisher;
+import school.faang.user_service.publisher.FollowerEventEventPublisher;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,11 +41,11 @@ public class SubscriptionServiceTest {
     @Mock
     private SubscriptionRepository subscriptionRepository;
     @Mock
-    private SearchAppearanceEventPublisher searchAppearanceEventPublisher;
+    private SearchAppearanceEventEventPublisher searchAppearanceEventPublisher;
     @Mock
     private UserContext userContext;
     @Mock
-    private  FollowerEventPublisher followerEventPublisher;
+    private FollowerEventEventPublisher followerEventPublisher;
 
     @Spy
     private SubscriptionUserMapper userMapper = Mappers.getMapper(SubscriptionUserMapper.class);

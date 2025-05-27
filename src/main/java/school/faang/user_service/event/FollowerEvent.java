@@ -1,4 +1,4 @@
-package school.faang.user_service.dto.event;
+package school.faang.user_service.event;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -7,16 +7,19 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 @Builder
-public class SearchAppearanceEvent {
+@AllArgsConstructor
+@NoArgsConstructor
+public class FollowerEvent {
+
     @NotNull
-    private Long viewedUserId;
+    private long followerId;
+
     @NotNull
-    private Long viewerUserId;
+    private long followeeId;
+
     @NotNull
-    private LocalDateTime viewingTime;
+    private LocalDateTime subscriptionDateTime;
+
 }

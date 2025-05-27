@@ -23,7 +23,7 @@ import school.faang.user_service.entity.User;
 import school.faang.user_service.entity.premium.Premium;
 import school.faang.user_service.exception.DataValidationException;
 import school.faang.user_service.mapper.PremiumMapper;
-import school.faang.user_service.publisher.PremiumBoughtEventPublisher;
+import school.faang.user_service.publisher.PremiumBoughtEventEventPublisher;
 import school.faang.user_service.repository.UserRepository;
 import school.faang.user_service.repository.premium.PremiumRepository;
 
@@ -52,7 +52,7 @@ class PremiumServiceTest {
     PremiumMapper premiumMapper;
 
     @Mock
-    PremiumBoughtEventPublisher premiumBoughtEventPublisher;
+    PremiumBoughtEventEventPublisher premiumBoughtEventPublisher;
     @Mock
     ExecutorService executorService;
     @InjectMocks

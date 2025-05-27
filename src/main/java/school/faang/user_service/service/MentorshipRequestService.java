@@ -6,13 +6,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import school.faang.user_service.dto.MentorshipRequestDto;
-import school.faang.user_service.dto.event.MentorshipStartEvent;
+import school.faang.user_service.event.MentorshipStartEvent;
 import school.faang.user_service.entity.MentorshipRequest;
 import school.faang.user_service.entity.RequestStatus;
 import school.faang.user_service.entity.User;
 import school.faang.user_service.exception.DataValidationException;
 import school.faang.user_service.mapper.MentorshipMapper;
-import school.faang.user_service.publisher.MentorshipEventPublisher;
+import school.faang.user_service.publisher.MentorshipEventEventPublisher;
 import school.faang.user_service.repository.mentorship.MentorshipRequestRepository;
 import school.faang.user_service.validator.mentorship.MentorshipValidator;
 
@@ -25,7 +25,7 @@ public class MentorshipRequestService{
 
     private final MentorshipRequestRepository mentorshipRequestRepository;
     private final MentorshipMapper mentorshipMapper;
-    private final MentorshipEventPublisher mentorshipEventPublisher;
+    private final MentorshipEventEventPublisher mentorshipEventPublisher;
     private final MentorshipValidator mentorshipValidator;
 
     @Transactional
