@@ -146,7 +146,4 @@ public class User {
     @Column(name = "banned", nullable = false)
     private boolean banned;
 
-    public long getId() {
-        return id;
-    }
 }
