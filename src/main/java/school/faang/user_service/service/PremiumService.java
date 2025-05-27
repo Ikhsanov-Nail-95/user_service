@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import school.faang.user_service.client.PaymentServiceClient;
 import school.faang.user_service.controller.premium.PremiumPeriod;
-import school.faang.user_service.dto.PremiumBoughtEvent;
+import school.faang.user_service.event.PremiumBoughtEvent;
 import school.faang.user_service.dto.PremiumDto;
 import school.faang.user_service.dto.payment.Currency;
 import school.faang.user_service.dto.payment.PaymentRequest;
@@ -19,7 +19,7 @@ import school.faang.user_service.entity.User;
 import school.faang.user_service.entity.premium.Premium;
 import school.faang.user_service.exception.DataValidationException;
 import school.faang.user_service.mapper.PremiumMapper;
-import school.faang.user_service.publisher.PremiumBoughtEventPublisher;
+import school.faang.user_service.publisher.PremiumBoughtEventEventPublisher;
 import school.faang.user_service.repository.UserRepository;
 import school.faang.user_service.repository.premium.PremiumRepository;
 
@@ -38,7 +38,7 @@ public class PremiumService {
     private final UserRepository userRepository;
     private final PremiumMapper premiumMapper;
     private final ExecutorService executorService;
-    private final PremiumBoughtEventPublisher premiumBoughtEventPublisher;
+    private final PremiumBoughtEventEventPublisher premiumBoughtEventPublisher;
 
     @Value("${premium.remover.batchSize}")
     private int batchSize;
