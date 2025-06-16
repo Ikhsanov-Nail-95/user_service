@@ -68,8 +68,8 @@ public class UserService {
                 });
     }
 
-    public List<User> findUsersByIds(List<Long> userIds) {
-        return userRepository.findAllById(userIds);
+    public List<User> findUsersByIds(List<Long> ids) {
+        return userRepository.findAllById(ids);
     }
 
     public UserDto create(UserDto userDto) {
