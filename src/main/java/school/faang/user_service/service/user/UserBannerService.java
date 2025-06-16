@@ -14,13 +14,13 @@ public class UserBannerService {
 
     @Transactional
     public void banUserById(Long userId){
-        User user = userService.getUserEntityById(userId);
+        User user = userService.findUserByIdOrThrow(userId);
         user.setBanned(true);
     }
 
     @Transactional
     public void banUsersByIds(List<Long> userIds){
-       List<User> users = userService.getUsersEntityByIds(userIds);
+       List<User> users = userService.findUsersByIds(userIds);
        users.forEach(user -> user.setBanned(true));
     }
 }

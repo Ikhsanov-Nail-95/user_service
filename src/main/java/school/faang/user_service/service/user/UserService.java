@@ -1,5 +1,6 @@
 package school.faang.user_service.service.user;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,8 +14,6 @@ import school.faang.user_service.dto.event.EventDto;
 import school.faang.user_service.entity.User;
 import school.faang.user_service.entity.UserProfilePic;
 import school.faang.user_service.exception.DataValidationException;
-import school.faang.user_service.exception.MessageError;
-import school.faang.user_service.exception.UserNotFoundException;
 import school.faang.user_service.mapper.UserMapper;
 import school.faang.user_service.publisher.ProfileViewEventEventPublisher;
 import school.faang.user_service.repository.UserRepository;
@@ -27,9 +26,9 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
-@Service
 @Slf4j
 @RequiredArgsConstructor
+@Service
 public class UserService {
 
     private final UserRepository userRepository;
@@ -52,16 +51,24 @@ public class UserService {
 
 
     public UserDto getUser(Long userId) {
-        User user = getUserEntityById(userId);
+        User user = findUserByIdOrThrow(userId);
         sendProfileViewEventToPublisher(userId);
         return userMapper.toDto(user);
     }
 
-    public User getUserEntityById(long userId) {
-        return userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException(MessageError.USER_NOT_FOUND_EXCEPTION));
+    public List<UserDto> getUsersByIds(List<Long> ids) {
+        return userMapper.toDto(findUsersByIds(ids));
     }
 
-    public List<User> getUsersEntityByIds(List<Long> userIds) {
+    public User findUserByIdOrThrow(long userId) {
+        return userRepository.findById(userId)
+                .orElseThrow(() -> {
+                    log.warn("User not found: ID={}", userId);
+                    return new EntityNotFoundException("User not found");
+                });
+    }
+
+    public List<User> findUsersByIds(List<Long> userIds) {
         return userRepository.findAllById(userIds);
     }
 
@@ -89,13 +96,9 @@ public class UserService {
 
     }
 
-    public List<UserDto> getUsersByIds(List<Long> ids) {
-        return userMapper.toDto(userRepository.findAllById(ids));
-    }
-
     @Transactional
     public void deactivate(long userId) {
-        User user = getUserEntityById(userId);
+        User user = findUserByIdOrThrow(userId);
         user.setActive(false);
         List<Long> eventIds = eventService.getOwnedEvents(userId).stream().map(EventDto::getId).toList();
         for (Long eventId : eventIds) {
