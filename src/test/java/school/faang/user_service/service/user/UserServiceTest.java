@@ -1,7 +1,6 @@
 package school.faang.user_service.service.user;
 
-import org.junit.Assert;
-import org.junit.jupiter.api.Assertions;
+import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -9,14 +8,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import school.faang.user_service.config.context.UserContext;
-import school.faang.user_service.event.ProfileViewEvent;
 import school.faang.user_service.dto.UserDto;
 import school.faang.user_service.dto.event.EventDto;
 import school.faang.user_service.entity.User;
 import school.faang.user_service.entity.UserProfilePic;
+import school.faang.user_service.event.ProfileViewEvent;
 import school.faang.user_service.exception.DataValidationException;
-import school.faang.user_service.exception.MessageError;
-import school.faang.user_service.exception.UserNotFoundException;
 import school.faang.user_service.mapper.UserMapperImpl;
 import school.faang.user_service.publisher.ProfileViewEventEventPublisher;
 import school.faang.user_service.repository.UserRepository;
@@ -28,13 +25,8 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.Assert.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.Mockito.any;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class UserServiceTest {
@@ -80,11 +72,15 @@ public class UserServiceTest {
     }
 
     @Test
-    public void testGetUser_UserDoesNotExist() {
+    void testGetUser_UserDoesNotExist() {
         when(userRepository.findById(firstUser.getId())).thenReturn(Optional.empty());
 
-        UserNotFoundException e = Assert.assertThrows(UserNotFoundException.class, () -> userService.getUser(firstUser.getId()));
-        Assertions.assertEquals(e.getMessage(), MessageError.USER_NOT_FOUND_EXCEPTION.getMessage());
+        EntityNotFoundException ex = assertThrows(
+                EntityNotFoundException.class,
+                () -> userService.getUser(firstUser.getId())
+        );
+
+        assertEquals("User not found", ex.getMessage());
     }
 
     @Test

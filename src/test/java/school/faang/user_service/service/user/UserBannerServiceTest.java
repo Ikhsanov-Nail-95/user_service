@@ -34,13 +34,13 @@ class UserBannerServiceTest {
 
     @Test
     public void testBanUserById(){
-        Mockito.when(userService.getUserEntityById(firstUser.getId())).thenReturn(firstUser);
+        Mockito.when(userService.findUserByIdOrThrow(firstUser.getId())).thenReturn(firstUser);
         userBannerService.banUserById(firstUser.getId());
     }
 
     @Test
     public void testBanUsersByIds(){
-        Mockito.when(userService.getUsersEntityByIds(userIdsToBan)).thenReturn(usersToBan);
+        Mockito.when(userService.findUsersByIds(userIdsToBan)).thenReturn(usersToBan);
         userBannerService.banUsersByIds(userIdsToBan);
     }
 }
