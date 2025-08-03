@@ -28,7 +28,7 @@ spring:
         mentorship-event: "app:user:mentorship"
         premium-bought-event: "app:user:premium:bought"
         profile-view-event: "app:user:profile:view"
-        search-appearance-event: "app:user:search:appearance"
+        profile-appeared-in-search-event: "app:user:profile:appeared-in-search"
 
 server:
   port: 8080

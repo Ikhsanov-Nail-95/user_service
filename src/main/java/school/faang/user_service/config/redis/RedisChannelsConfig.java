@@ -18,22 +18,16 @@ public class RedisChannelsConfig {
 
     @NotEmpty
     private String userBannerEvent;
-
     @NotEmpty
     private String followerEvent;
-
-
     @NotEmpty
     private String mentorshipEvent;
-
     @NotEmpty
     private String premiumBoughtEvent;
-
     @NotEmpty
     private String profileViewEvent;
-
     @NotEmpty
-    private String searchAppearanceEvent;
+    private String profileAppearedInSearchEvent;
 
     @Bean
     public ChannelTopic userBannerEventTopic() {
@@ -61,7 +55,7 @@ public class RedisChannelsConfig {
     }
 
     @Bean
-    public ChannelTopic searchAppearanceEventTopic() {
-        return new ChannelTopic(searchAppearanceEvent);
+    public ChannelTopic profileAppearedInSearchTopic() {
+        return new ChannelTopic(profileAppearedInSearchEvent);
     }
 }
