@@ -1,6 +1,5 @@
 package school.faang.user_service.publisher;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -11,14 +10,14 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.listener.ChannelTopic;
 import org.springframework.data.redis.serializer.SerializationException;
-import school.faang.user_service.event.SearchAppearanceEvent;
+import school.faang.user_service.event.ProfileAppearedInSearchEvent;
 import school.faang.user_service.exception.JsonSerializationException;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class SearchAppearanceEventPublisherTest {
+class ProfileAppearedInSearchEventPublisherTest {
 
     @Mock
     private RedisTemplate<String, Object> redisTemplate;
@@ -27,24 +26,24 @@ class SearchAppearanceEventPublisherTest {
     private ChannelTopic channelTopic;
 
     @InjectMocks
-    private SearchAppearanceEventEventPublisher searchAppearanceEventPublisher;
+    private ProfileAppearedInSearchEventPublisher searchAppearanceEventPublisher;
 
-    private SearchAppearanceEvent searchAppearanceEvent;
+    private ProfileAppearedInSearchEvent profileAppearedInSearchEvent;
 
     private final String topic = "search-appearance-topic";
 
     @BeforeEach
     void setUp() {
         when(channelTopic.getTopic()).thenReturn(topic);
-        searchAppearanceEvent = new SearchAppearanceEvent();
+        profileAppearedInSearchEvent = new ProfileAppearedInSearchEvent();
     }
 
     @Test
-    @DisplayName("Should serialize searchAppearanceEvent to JSON and send it to Redis channel")
+    @DisplayName("Should serialize profileAppearedInSearchEvent to JSON and send it to Redis channel")
     void publish_shouldPublishedToRedis_whenValidEvent() {
-        searchAppearanceEventPublisher.publish(searchAppearanceEvent);
+        searchAppearanceEventPublisher.publish(profileAppearedInSearchEvent);
 
-        verify(redisTemplate, times(1)).convertAndSend(topic, searchAppearanceEvent);
+        verify(redisTemplate, times(1)).convertAndSend(topic, profileAppearedInSearchEvent);
     }
 
     @Test
@@ -53,12 +52,12 @@ class SearchAppearanceEventPublisherTest {
         SerializationException serializationException = new SerializationException("test serialization failure");
         doThrow(serializationException)
                 .when(redisTemplate)
-                .convertAndSend(topic, searchAppearanceEvent);
+                .convertAndSend(topic, profileAppearedInSearchEvent);
 
         JsonSerializationException thrown = assertThrows(JsonSerializationException.class,
-                ()-> searchAppearanceEventPublisher.publish(searchAppearanceEvent));
+                ()-> searchAppearanceEventPublisher.publish(profileAppearedInSearchEvent));
 
-        assertEquals("Failed to serialize event: " + searchAppearanceEvent + " to JSON", thrown.getMessage());
+        assertEquals("Failed to serialize event: " + profileAppearedInSearchEvent + " to JSON", thrown.getMessage());
         assertSame(serializationException, thrown.getCause());
     }
 }

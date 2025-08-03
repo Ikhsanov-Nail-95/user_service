@@ -12,12 +12,12 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import school.faang.user_service.config.context.UserContext;
 import school.faang.user_service.dto.subscription.SubscriptionUserDto;
 import school.faang.user_service.dto.subscription.SubscriptionUserFilterDto;
-import school.faang.user_service.event.SearchAppearanceEvent;
+import school.faang.user_service.event.ProfileAppearedInSearchEvent;
 import school.faang.user_service.event.FollowerEvent;
 import school.faang.user_service.entity.User;
 import school.faang.user_service.exception.DataValidationException;
 import school.faang.user_service.mapper.SubscriptionUserMapper;
-import school.faang.user_service.publisher.SearchAppearanceEventEventPublisher;
+import school.faang.user_service.publisher.ProfileAppearedInSearchEventPublisher;
 import school.faang.user_service.repository.SubscriptionRepository;
 import school.faang.user_service.filter.user.*;
 import school.faang.user_service.publisher.FollowerEventEventPublisher;
@@ -41,7 +41,7 @@ public class SubscriptionServiceTest {
     @Mock
     private SubscriptionRepository subscriptionRepository;
     @Mock
-    private SearchAppearanceEventEventPublisher searchAppearanceEventPublisher;
+    private ProfileAppearedInSearchEventPublisher searchAppearanceEventPublisher;
     @Mock
     private UserContext userContext;
     @Mock
@@ -121,7 +121,7 @@ public class SubscriptionServiceTest {
         when(subscriptionRepository.findByFolloweeId(userId1)).thenReturn(user1.getFollowers().stream());
         List<SubscriptionUserDto> result = subscriptionService.getFollowers(userId1, new SubscriptionUserFilterDto());
         assertEquals(result.get(0).getId(), userId2);
-        verify(searchAppearanceEventPublisher, times(1)).publish(any(SearchAppearanceEvent.class));
+        verify(searchAppearanceEventPublisher, times(1)).publish(any(ProfileAppearedInSearchEvent.class));
     }
 
     @Test
@@ -140,7 +140,7 @@ public class SubscriptionServiceTest {
         when(subscriptionRepository.findByFolloweeId(userId1)).thenReturn(user1.getFollowees().stream());
         List<SubscriptionUserDto> result = subscriptionService.getFollowing(userId1, new SubscriptionUserFilterDto());
         assertEquals(result.get(0).getId(), userId2);
-        verify(searchAppearanceEventPublisher, times(1)).publish(any(SearchAppearanceEvent.class));
+        verify(searchAppearanceEventPublisher, times(1)).publish(any(ProfileAppearedInSearchEvent.class));
     }
 
     @Test
