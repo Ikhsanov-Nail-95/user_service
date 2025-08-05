@@ -23,11 +23,11 @@ spring:
       host: localhost
       # Каналы для Pub/Sub механизма Redis
       channels:
-        user-banner-event: "app:user:banner"
-        follower-event: "app:user:follower"
+        user-banner-event: "app:user:banned"
+        follower-event: "app:user:follower-added"
         mentorship-event: "app:user:mentorship"
-        premium-bought-event: "app:user:premium:bought"
-        profile-view-event: "app:user:profile:view"
+        premium-bought-event: "app:user:premium-purchased"
+        profile-view-event: "app:user:profile:viewed"
         profile-appeared-in-search-event: "app:user:profile:appeared-in-search"
 
 server:
