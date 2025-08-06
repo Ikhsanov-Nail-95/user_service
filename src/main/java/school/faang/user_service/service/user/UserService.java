@@ -8,21 +8,21 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import school.faang.user_service.config.S3Config;
 import school.faang.user_service.config.context.UserContext;
-import school.faang.user_service.event.ProfileViewEvent;
 import school.faang.user_service.dto.UserDto;
 import school.faang.user_service.dto.event.EventDto;
 import school.faang.user_service.entity.User;
 import school.faang.user_service.entity.UserProfilePic;
+import school.faang.user_service.event.ProfileViewEvent;
 import school.faang.user_service.exception.DataValidationException;
 import school.faang.user_service.mapper.UserMapper;
 import school.faang.user_service.publisher.ProfileViewEventEventPublisher;
 import school.faang.user_service.repository.UserRepository;
 import school.faang.user_service.service.MentorshipService;
-import school.faang.user_service.service.event.EventService;
 import school.faang.user_service.service.S3Service;
+import school.faang.user_service.service.event.EventService;
 import school.faang.user_service.validator.UserValidator;
 
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -128,9 +128,9 @@ public class UserService {
 
     private void sendProfileViewEventToPublisher(long userId) {
         ProfileViewEvent event = ProfileViewEvent.builder()
-                .observerId(userContext.getUserId())
                 .observedId(userId)
-                .viewedAt(LocalDateTime.now())
+                .observerId(userContext.getUserId())
+                .viewedAt(ZonedDateTime.now())
                 .build();
         profileViewEventPublisher.publish(event);
         log.info("Successfully sent data to analytics-service");

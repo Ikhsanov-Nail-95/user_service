@@ -91,10 +91,11 @@ public class SubscriptionService {
         List<Long> userIds = filteredUsersList.stream().map(SubscriptionUserDto::getId).toList();
 
         userIds.forEach(userId -> {
-            ProfileAppearedInSearchEvent event = new ProfileAppearedInSearchEvent();
-            event.setViewedUserId(userId);
-            event.setSearchingUserId(userContext.getUserId());
-            event.setAppearedAt(ZonedDateTime.now());
+            ProfileAppearedInSearchEvent event = ProfileAppearedInSearchEvent.builder()
+                    .viewedUserId(userId)
+                    .searchingUserId(userContext.getUserId())
+                    .appearedAt(ZonedDateTime.now())
+                    .build();
             searchAppearanceEventPublisher.publish(event);
         });
 
