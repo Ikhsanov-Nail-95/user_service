@@ -1,18 +1,16 @@
 package school.faang.user_service.event;
 
-import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 
+@Getter
 @Builder
-@Data
+@AllArgsConstructor
 public class ProfileViewEvent {
-    @NotNull
-    private Long observerId;
-    @NotNull
-    private Long observedId;
-    @NotNull
-    private LocalDateTime viewedAt;
+    private long observedId;
+    private long observerId;
+    private ZonedDateTime viewedAt;
 }

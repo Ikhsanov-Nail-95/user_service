@@ -1,14 +1,12 @@
 package school.faang.user_service.event;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.ZonedDateTime;
 
 @Getter
-@Setter
-@NoArgsConstructor
+@Builder
+@AllArgsConstructor
 public class ProfileAppearedInSearchEvent {
     private Long viewedUserId;
     private Long searchingUserId;
